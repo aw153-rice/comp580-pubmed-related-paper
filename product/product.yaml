@@ -1,0 +1,11 @@
+_ > nanoagent.plugin.v0001.ProductConfig:
+tagline: "Find the PubMed article most related to a PMID."
+summary: "PubMed Related Paper asks NCBI ELink for the neighbor scores of one PMID. It returns the other article with the highest score, and breaks a tie by choosing the smaller PMID."
+highlights:
+  - "Uses PubMed's neighbor_score ranking."
+  - "Leaves out the query article itself."
+  - "Breaks equal scores by the smaller PMID."
+steps:
+  - "Give one PubMed ID."
+  - "The plugin loads that article's related-article scores from E-utilities."
+  - "It returns the other article with the highest score."
