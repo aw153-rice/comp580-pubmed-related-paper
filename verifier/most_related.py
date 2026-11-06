@@ -28,16 +28,18 @@ def verify_task(arguments, output, reference, workspace):
     problem = input_problem(arguments) or output_problem(output, arguments.pmid)
     if problem:
         return result(False, problem[1])
-    if reference is None:
-        return result(False, "reference is missing")
-    problem = output_problem(reference, arguments.pmid)
-    if problem:
-        return result(False, problem[1])
-    if output.related_pmid != reference.related_pmid or output.neighbor_score != reference.neighbor_score:
-        return result(False, "output does not match the reference")
+    # A tool run never receives the pin. Judge that call from neighbors.json.
+    if reference is not None:
+        problem = output_problem(reference, arguments.pmid)
+        if problem:
+            return result(False, problem[1])
+        if output.related_pmid != reference.related_pmid or output.neighbor_score != reference.neighbor_score:
+            return result(False, "output does not match the reference")
     kind, payload = load_neighbors(workspace, arguments.pmid)
     if kind != "ok":
         return result(False, payload)
     if not matches_rows(output, payload):
         return result(False, "neighbors.json does not support the output")
+    if reference is None:
+        return result(True, "output matches the ranked neighbors")
     return result(True, "output matches the reference")
