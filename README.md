@@ -57,7 +57,7 @@ uv run pytest
 ```
 
 The tests use a fake HTTP client and do not call NCBI. A live run needs
-network access to `eutils.ncbi.nlm.nih.gov`. `NCBI_API_KEY` and `NCBI_EMAIL`
-are listed in `.env`. The client sends them on the E-utilities request when
-they are non-empty, and still ranks when they are empty. No workspace file is
+network access to `eutils.ncbi.nlm.nih.gov`. `.env` declares no variables. The client adds `NCBI_API_KEY` and `NCBI_EMAIL`
+to the E-utilities request only when the process already has them, and still
+ranks when they are absent. No workspace file is
 required before a run; `most_related_paper` creates `neighbors.json`.
